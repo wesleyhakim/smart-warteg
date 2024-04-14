@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMART WARTEG</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </head>
+
+  <body>
+    <style>
+      body {
+        background-image: url('{% static "background.png" %}');
+        background-repeat: no-repeat;
+      }
+      table tr:hover td {
+        background-color: #a5cef2;
+      }
+      .carousel-control-prev,
+      .carousel-control-next {
+        background-color: #cff4fc;
+        border-color: transparent;
+      }
+
+      .carousel-control-prev:hover,
+      .carousel-control-next:hover {
+        background-color: #cff4fc;
+      }
+      .carousel-control-prev,
+      .carousel-control-next {
+        width: 90px;
+        height: 120px;
+        padding: 5px;
+      }
+
+      .carousel-control-prev-icon,
+      .carousel-control-next-icon {
+        width: 85px;
+        height: 115px;
+      }
+
+      .nav-link {
+        position: relative;
+      }
+
+      .nav-link::after {
+        content: '';
+        opacity: 0;
+        transition: all 0.2s;
+        height: 2px;
+        width: 100%;
+        background-color: #fcaf17;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      .nav-link:hover::after{
+        opacity: 1;
+      }
+    </style>
+    <header style="background: #0f4c81;" class="sticky-top">
+      <h1 class="text-center h1 bold pt-4" style="color:#fcaf17">
+          SMART WARTEG
+      </h1>
+      <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <!-- NAVBAR -->
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav justify-content-evenly w-100">
+                      <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="/overview/" style="color:#ffffff">Overview</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/dish/" style="color:#ffffff">Dish Cleaning</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/stove/" style="color:#ffffff">Stove Safety</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/customer/" style="color:#ffffff">Customer</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#ffffff">
+                              Subsystem History
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="/dish/history/">Dish Cleaning History</a>
+                              <a class="dropdown-item" href="/stove/history/">Stove Safety History</a>
+                              <a class="dropdown-item" href="/customer/history/">Customer History</a>
+                          </div>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link active" href="/penjelasan/" style="color:#ffffff">Penjelasan</a>
+                      </li>
+                  </ul>
+              </div>
+              <!-- END OF NAVBAR -->
+          </div>
+      </nav>
+    </header>
+
+
+
+    <div class="container hero">
+      <div class="my-5 row" style="background-color: white;border: 1px solid #5f5f5f">
+        <div class="col img-container">
+          <img
+            src="{% static 'warteg_fade.png' %}"
+            alt="WARTEG.png"
+            style="max-width: 100%; height: auto"
+          />
+        </div>
+
+        <div class="col-8 hero-text">
+          <div class="row">
+            <p class="h3">Smart Warteg</p>
+            <p>
+              Selamat datang di Warteg Cerdas kami, di mana pengalaman kuliner bertemu inovasi. Sistem cuci piring otomatis, dapur pintar, dan ruang pelanggan dilengkapi sensor canggih. Sensor-sensor ini diproses menggunakan Machine Learning untuk mengoptimalkan pencucian piring, menjaga keamanan dapur, dan memonitor aktivitas pelanggan. Nikmati layanan modern dan efisien di Warteg Cerdas kami, di mana teknologi memenuhi lidah Anda.
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-8"></div>
+            <div class="col text-end">
+              <a href="/penjelasan/" class="learn-more btn btn-primary"
+                >Learn More ></a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- DISH CLEANING -->
+      <section class="dish my-5">
+        <h2 class="h2">DISH CLEANING</h2>
+        <div class="row">
+          <div id="tableDish" class="col-md-6 float-left"></div>
+
+          <div class="col text-center" id="dishCleanerRotatorContainer">
+            <h4>Dish rotator</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#0f4c81" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+          <div class="col text-center" id="sinkWaterValveContainer">
+            <h4>Sink water valve</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="red" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+          <div class="col text-center" id="dishSoapPumpContainer">
+            <h4>Dish soap pump</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#0f4c81" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+        </div>
+      </section>
+      <!-- END OF DISH CLEANING -->
+
+      <!-- STOVE SAFETY -->
+      <section class="stove my-5">
+        <h2 class="h2">STOVE SAFETY</h2>
+        <div class="row">
+          <div id="tableStove" class="col-md-6 float-left"></div>
+          <div class="col text-center" id="waterSprinklerContainer">
+            <h4>Water sprinkler</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#0f4c81" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+          <div class="col text-center" id="fireAlarmContainer">
+            <h4>Fire alarm</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="red" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+          <div class="col text-center" id="gasExhaustContainer">
+            <h4>Gas exhaust</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#0f4c81" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+        </div>
+      </section>
+      <!-- END OF STOVE SAFETY -->
+
+      <!-- CUSTOMER -->
+      <section class="customer my-5">
+        <h2 class="h2">CUSTOMER</h2>
+        <div class="row">
+          <div id="tableCustomer" class="col-md-6 float-left"></div>
+
+          <div class="col text-center" id="soundAlertContainer">
+            <h4>Sound alert</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="red" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+          <div class="col text-center" id="lightContainer">
+            <h4>Light</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="red" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+          <div class="col text-center" id="monitorContainer">
+            <h4>Monitor</h4>
+
+            <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="50" fill="#0f4c81" />
+
+              <text
+                x="50%"
+                y="50%"
+                dominant-baseline="middle"
+                text-anchor="middle"
+                fill="white"
+                font-size="16"
+              >
+                None
+              </text>
+            </svg>
+          </div>
+        </div>
+      </section>
+      <!-- END OF CUSTOMER -->
+    </div>
+
+    <script>
+      async function fetchRecentActuatorData(actuatorName, database) {
+        try {
+          const encodedActuatorName = encodeURIComponent(actuatorName);
+          const response = await fetch(
+            `/get_recent_actuator_data/${encodedActuatorName}/${database}`
+          );
+          const data = await response.json();
+          console.log(`Received data for ${actuatorName}:`, data); // Log the received data
+          return data.actuator_data;
+        } catch (error) {
+          console.error(`Error fetching recent ${actuatorName} data:`, error);
+          return [];
+        }
+      }
+      function updateContent(containerId, endpoint) {
+        var fullEndpoint = endpoint + "id=" + containerId;
+        $.ajax({
+          url: fullEndpoint,
+          method: "GET",
+          success: function (data) {
+            $("#" + containerId).html(data);
+          },
+          error: function (error) {
+            console.error("Error updating content:", error);
+          },
+        });
+      }
+      async function changeActuator(containerId, actuatorName, database) {
+        const act = await fetchRecentActuatorData(actuatorName, database);
+        var status = act[0].value;
+        console.log("status", status);
+
+        var containerElement = document.getElementById(containerId);
+        if (status == -1) {
+          containerElement
+            .querySelector("circle")
+            .setAttribute("fill", "green");
+          containerElement.querySelector("text").textContent = "ON";
+        } else if (status == -2) {
+          containerElement.querySelector("circle").setAttribute("fill", "red");
+          containerElement.querySelector("text").textContent = "OFF";
+        } else {
+          containerElement.querySelector("circle").setAttribute("fill", "#0f4c81");
+          containerElement.querySelector("text").textContent = status;
+        }
+
+      }
+    </script>
+
+    <footer class="footer" style="background: #0f4c81">
+      <div class="container">
+        <div class="row" style="padding: 0">
+          <div class="col text-start mt-3 fs-5" style="color: #ffffff">
+            Petra William Leka, Wesley Hakim
+          </div>
+          <div class="col fs-5 text-end" style="padding: 0">
+            <span class="" style="color: #ffffff">
+              Calvin Institute of Technology
+            </span>
+            <img
+              src="{% static 'cit.png' %}"
+              alt="Logo CIT"
+              class="img-fluid"
+              style="max-width: 25% !important; padding: 10px"
+            />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      setInterval(function () {
+        updateContent("tableDish", "/show_element/"); // Replace with your actual endpoint
+        updateContent("tableStove", "/show_element/");
+        updateContent("tableCustomer", "/show_element/");
+        var containerIds = [
+          ["dishCleanerRotatorContainer", "Dish cleaner rotator", "dish"],
+          ["sinkWaterValveContainer", "Sink water valve", "dish"],
+          ["dishSoapPumpContainer", "Dish soap pump", "dish"],
+          ["waterSprinklerContainer", "Water sprinkler", "stove"],
+          ["fireAlarmContainer", "Fire alarm", "stove"],
+          ["gasExhaustContainer", "Gas exhaust", "stove"],
+          ["soundAlertContainer", "Sound alert", "customer"],
+          ["lightContainer", "Light", "customer"],
+          ["monitorContainer", "Monitor", "customer"],
+        ];
+
+        containerIds.forEach(function (tiap_aktuator) {
+          changeActuator(tiap_aktuator[0], tiap_aktuator[1], tiap_aktuator[2]);
+        });
+      }, 1000);
+    </script>
+  </body>
+</html>

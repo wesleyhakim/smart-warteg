@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMART WARTEG</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </head>
+
+  <body>
+    <style>
+      body {
+        background-image: url('{% static "background.png" %}');
+        background-repeat: no-repeat;
+      }
+      #subsystemTable th,
+      #subsystemTable td {
+        border: 1px solid #070707;
+        padding: 8px;
+        text-align: left;
+      }
+      #tableDishLog {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      
+      .nav-link {
+        position: relative;
+      }
+
+      .nav-link::after {
+        content: '';
+        opacity: 0;
+        transition: all 0.2s;
+        height: 2px;
+        width: 100%;
+        background-color: #fcaf17;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      .nav-link:hover::after{
+        opacity: 1;
+      }
+    </style>
+    <header style="background: #0f4c81;" class="sticky-top">
+      <h1 class="text-center h1 bold pt-4" style="color:#fcaf17">
+          SMART WARTEG
+      </h1>
+      <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <!-- NAVBAR -->
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav justify-content-evenly w-100">
+                      <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="/overview/" style="color:#ffffff">Overview</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/dish/" style="color:#ffffff">Dish Cleaning</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/stove/" style="color:#ffffff">Stove Safety</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/customer/" style="color:#ffffff">Customer</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#ffffff">
+                              Subsystem History
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="/dish/history/">Dish Cleaning History</a>
+                              <a class="dropdown-item" href="/stove/history/">Stove Safety History</a>
+                              <a class="dropdown-item" href="/customer/history/">Customer History</a>
+                          </div>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link active" href="/penjelasan/" style="color:#ffffff">Penjelasan</a>
+                      </li>
+                  </ul>
+              </div>
+              <!-- END OF NAVBAR -->
+          </div>
+      </nav>
+    </header>
+    
+    <h1 class="text-center h1 bold pt-4">Dish Cleaner Subsytem History</h1>
+
+    <div id="tableDishLog" class="col-md-11 mx-auto">
+      <div class="table-responsive">
+        <table id="subsystemTable" class="table table-sm">
+          <thead class="table-info">
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Timestamp</th>
+              <th scope="col">Dish level detector</th>
+              <th scope="col">Waterflow monitor</th>
+              <th scope="col">Dish weight reader</th>
+              <th scope="col">Dish cleaner rotator</th>
+              <th scope="col">Sink water valve</th>
+              <th scope="col">Dish soap pump</th>
+            </tr>
+          </thead>
+          <tbody id="subsystemTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="footer" style="background: #0f4c81">
+      <div class="container">
+        <div class="row" style="padding: 0">
+          <div class="col text-start mt-3 fs-5" style="color: #ffffff">
+            Petra William Leka, Wesley Hakim
+          </div>
+          <div class="col fs-5 text-end" style="padding: 0">
+            <span class="" style="color: #ffffff">
+              Calvin Institute of Technology
+            </span>
+            <img
+              src="{% static 'cit.png' %}"
+              alt="Logo CIT"
+              class="img-fluid"
+              style="max-width: 25% !important; padding: 10px"
+            />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      function updateContent(containerId, endpoint) {
+        var fullEndpoint = endpoint + "id=" + containerId;
+        $.ajax({
+          url: fullEndpoint,
+          method: "GET",
+          success: function (data) {
+            $("#" + containerId).html(data);
+          },
+          error: function (error) {
+            console.error("Error updating content:", error);
+          },
+        });
+      }
+
+      // setInterval(function () {
+      //   updateContent("tableDishLog", "/show_element/"); // Replace with your actual endpoint
+      // }, 1000);
+    </script>
+
+<script>
+
+  async function fetchRecentActuatorData(actuatorName, database) {
+    try {
+      const encodedActuatorName = encodeURIComponent(actuatorName);
+      const response = await fetch(
+        `/get_recent_actuator_data/${encodedActuatorName}/${database}`
+      );
+      const data = await response.json();
+      console.log(`Received data for ${actuatorName}:`, data); // Log the received data
+      return data.actuator_data;
+    } catch (error) {
+      console.error(`Error fetching recent ${actuatorName} data:`, error);
+      return [];
+    }
+  }
+
+  async function fetchRecentSensorData(sensorName, database) {
+    try {
+      const encodedSensorName = encodeURIComponent(sensorName);
+      const response = await fetch(
+        `/get_recent_sensor_data/${encodedSensorName}/${database}`
+      );
+      const data = await response.json();
+      console.log(`Received data for ${sensorName}:`, data); // Log the received data
+      return data.sensor_data;
+    } catch (error) {
+      console.error(`Error fetching recent ${sensorName} data:`, error);
+      return [];
+    }
+  }
+  </script>
+
+<script>
+  async function updateLog(){
+
+      var tableBody = document.getElementById('subsystemTableBody');
+
+      tableBody.textContent = '';
+
+      console.log("update")
+      // Sample data (replace this with your data)
+      const dish_level_detector_data = await fetchRecentSensorData("Dish level detector", "dish");
+      const waterflow_monitor_data = await fetchRecentSensorData("Waterflow monitor", "dish");
+      const dish_weight_reader_data = await fetchRecentSensorData("Dish weight reader", "dish");
+
+      const dish_cleaner_rotator_data = await fetchRecentActuatorData("Dish cleaner rotator","dish");
+      const sink_water_valve_data = await fetchRecentActuatorData("Sink water valve","dish");
+      const dish_soap_pump_data = await fetchRecentActuatorData("Dish soap pump", "dish");
+
+      data_list = [
+      dish_level_detector_data,
+      waterflow_monitor_data,
+      dish_weight_reader_data,
+      dish_cleaner_rotator_data,
+      sink_water_valve_data,
+      dish_soap_pump_data,
+      ];
+
+      var tableBody = document.getElementById('subsystemTableBody');
+    // Loop through dish_sensor array and create table rows
+    for (var i = 0; i < 101; i++) {
+      // Create a new table row
+      var row = document.createElement('tr');
+      row.classList.add('clickable-button');
+      
+      var noCell = document.createElement('td');
+      noCell.textContent = i+1;
+      row.appendChild(noCell);
+
+      var timestampCell = document.createElement('td');
+      var timestamp_data = data_list[0][i].timestamp;
+      var date = new Date(timestamp_data * 1000);
+      var formattedDate = date.toLocaleString();
+      timestampCell.textContent = formattedDate;
+      console.log("Date:", formattedDate);
+      
+      row.appendChild(timestampCell);
+
+      for (var j = 0; j < 6; j++){
+        var sensorCell = document.createElement('td');
+        data_value = data_list[j][i].value;
+        if (data_value == -1) {
+          sensorCell.textContent = "ON";
+        }
+        else if (data_value == -2) {
+          sensorCell.textContent = "OFF";
+        }
+        else {
+        sensorCell.textContent = data_list[j][i].value;
+        }
+        row.appendChild(sensorCell);
+      }
+      // Append the row to the table body
+      tableBody.appendChild(row);
+      console.log("ini row", row)
+    }
+  }
+  updateLog();
+  setInterval(function() {
+    updateLog();
+  }, 10000);
+
+</script>
+
+  </body>
+</html>

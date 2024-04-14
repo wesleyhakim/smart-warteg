@@ -1,0 +1,29 @@
+<div class="table-responsive">
+  <table class="table table-sm">
+    <thead class="table-info">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Value</th>
+        <th scope="col">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tiap_sensor in dish_sensor %}
+      <tr class="clickable-button">
+          <td>{{ tiap_sensor.name }}</td>
+          <td>
+              {{ tiap_sensor.value }}
+              {% if tiap_sensor.name == 'Dish level detector' %}
+                Lv
+              {% elif tiap_sensor.name == 'Waterflow monitor' %}
+                Lv
+              {% elif tiap_sensor.name == 'Dish weight reader' %}
+                kg
+              {% endif %}
+          </td>
+          <td>{{ tiap_sensor.timestamp }}</td>
+      </tr>
+      {% endfor %}
+  </tbody>
+  </table>
+</div>

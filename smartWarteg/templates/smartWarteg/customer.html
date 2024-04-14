@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMART WARTEG</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+  {% load static %}
+  <style>
+    body {
+      background-image: url('{% static "background.png" %}');
+      background-repeat: no-repeat;
+    }
+
+    table tr:hover td {
+      background-color: #a5cef2;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      background-color: #cff4fc;
+      border-color: transparent;
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+      background-color: #cff4fc;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 45px;
+      height: 60px;
+      padding: 5px;
+      margin-top: auto;
+      margin-right: auto;
+      margin-left: auto;
+      margin-bottom: auto;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      width: 40px;
+      height: 55px;
+      fill: black;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+    }
+
+    table {
+      border: 1px solid #ddd
+    }
+
+    #tableCustomer {
+      padding: 50px 0;
+    }
+    
+    .nav-link {
+        position: relative;
+      }
+
+    .nav-link::after {
+      content: '';
+      opacity: 0;
+      transition: all 0.2s;
+      height: 2px;
+      width: 100%;
+      background-color: #fcaf17;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .nav-link:hover::after{
+      opacity: 1;
+    }
+  </style>
+    <header style="background: #0f4c81;" class="sticky-top">
+      <h1 class="text-center h1 bold pt-4" style="color:#fcaf17">
+          SMART WARTEG
+      </h1>
+      <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <!-- NAVBAR -->
+              <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav justify-content-evenly w-100">
+                      <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="/overview/" style="color:#ffffff">Overview</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/dish/" style="color:#ffffff">Dish Cleaning</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/stove/" style="color:#ffffff">Stove Safety</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/customer/" style="color:#ffffff">Customer</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                              data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#ffffff">
+                              Subsystem History
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="/dish/history/">Dish Cleaning History</a>
+                              <a class="dropdown-item" href="/stove/history/">Stove Safety History</a>
+                              <a class="dropdown-item" href="/customer/history/">Customer History</a>
+                          </div>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link active" href="/penjelasan/" style="color:#ffffff">Penjelasan</a>
+                      </li>
+                  </ul>
+              </div>
+              <!-- END OF NAVBAR -->
+          </div>
+      </nav>
+    </header>
+
+  <div class="container">
+    <div class="text-center">
+      <h1>Customer Subsystem</h1>
+    </div>
+    <section>
+      <div class="text-center">
+        <h2>Sensors</h2>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div id="tableCustomer" class="col-md-6 float-left">
+          </div>
+
+
+          <div id="sensorCarousel" class="carousel slide col-md-6 float-right" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <div class="text-center">
+                  <h4 id="sensorTitle">Camera</h4>
+
+                  <div id="cameraDiv"></div>
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="text-center">
+                  <h4 id="sensorTitle">Motion detector</h4>
+
+                  <div id="motionDetectorDiv"></div>
+                </div>
+              </div>
+
+              <div class="carousel-item">
+                <div class="text-center">
+                  <h4 id="sensorTitle">Sound sensor</h4>
+
+                  <div id="soundSensorDiv"></div>
+                </div>
+              </div>
+            </div>
+
+            <a class="carousel-control-prev" href="#sensorCarousel" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+
+            <a class="carousel-control-next" href="#sensorCarousel" role="button" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>
+    </section>
+
+    <!-- Ini svg nya dimasukin ke a supaya bisa akses grafik -->
+    <section class="my-5">
+      <div class="text-center">
+        <h2>Actuators</h2>
+      </div>
+      <div class="row">
+        <div class="col text-center" id="soundAlertContainer">
+          <h4>Sound alert</h4>
+
+          <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="50" fill="red" />
+
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="16">
+              None
+            </text>
+          </svg>
+          </a>
+        </div>
+        <div class="col text-center" id="lightContainer">
+          <h4>Light</h4>
+
+          <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="50" fill="red" />
+
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="16">
+              None
+            </text>
+          </svg>
+          </a>
+        </div>
+        <div class="col text-center" id="monitorContainer">
+          <h4>Monitor</h4>
+
+          <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="50" fill="red" />
+
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-size="16">
+              None
+            </text>
+          </svg>
+          </a>
+        </div>
+      </div>
+
+
+
+
+      <div id="actuatorCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="text-center">
+              <h4 id="actuatorTitle">Sound alert</h4>
+
+              <div id="soundAlertDiv"></div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="text-center">
+              <h4 id="actuatorTitle">Light</h4>
+
+              <div id="lightDiv"></div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="text-center">
+              <h4 id="actuatorTitle">Monitor</h4>
+
+              <div id="monitorDiv"></div>
+            </div>
+          </div>
+        </div>
+
+        <a class="carousel-control-prev" href="#actuatorCarousel" role="button" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </a>
+
+        <a class="carousel-control-next" href="#actuatorCarousel" role="button" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </a>
+      </div>
+    </section>
+  </div>
+  <script>
+    google.charts.load('current', { packages: ['corechart', 'line'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart(divId, sensorData) {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'X');
+      data.addColumn('number', 'Data');
+
+      var row_list = [];
+
+      i_Data = 0;
+
+      sensorData.forEach((data) => {
+        // Use x and y coordinates based on timestamp and value values
+        var x = i_Data;
+        var y = data.value;
+
+        row_list.push([x, y]);
+
+        i_Data += 1;
+      });
+
+      data.addRows(row_list);
+
+      var options = {
+        hAxis: {
+          title: 'Time'
+        },
+        vAxis: {
+          title: 'Value'
+        }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById(divId));
+
+      chart.draw(data, options);
+    }
+
+    // Function to fetch recent sensor data
+    async function fetchRecentSensorData(sensorName, database) {
+      try {
+        const encodedSensorName = encodeURIComponent(sensorName);
+        const response = await fetch(
+          `/get_recent_sensor_data/${encodedSensorName}/${database}`
+        );
+        const data = await response.json();
+        console.log(`Received data for ${sensorName}:`, data); // Log the received data
+        return data.sensor_data;
+      } catch (error) {
+        console.error(`Error fetching recent ${sensorName} data:`, error);
+        return [];
+      }
+    }
+
+    // Function to update the sensor plot
+    async function updateSensorPlot(canvasId, sensorName, database) {
+      try {
+        const sensorData = await fetchRecentSensorData(sensorName, database);
+        console.log(`Received data for ${sensorName}:`, sensorData);
+        drawChart(canvasId, sensorData);
+      } catch (error) {
+        console.error(`Error updating sensor plot for ${sensorName}:`, error);
+      }
+    }
+
+    // Function to fetch recent actuator data
+    async function fetchRecentActuatorData(actuatorName, database) {
+      try {
+        const encodedActuatorName = encodeURIComponent(actuatorName);
+        const response = await fetch(
+          `/get_recent_actuator_data/${encodedActuatorName}/${database}`
+        );
+        const data = await response.json();
+        console.log(`Received data for ${actuatorName}:`, data); // Log the received data
+        return data.actuator_data;
+      } catch (error) {
+        console.error(`Error fetching recent ${actuatorName} data:`, error);
+        return [];
+      }
+    }
+    async function updateActuatorPlot(canvasId, actuatorName, database) {
+      try {
+        const actuatorData = await fetchRecentActuatorData(actuatorName, database);
+        console.log(`Received data for ${actuatorName}:`, actuatorData);
+        drawChart(canvasId, actuatorData);
+      } catch (error) {
+        console.error(`Error updating actuator plot for ${actuatorName}:`, error);
+      }
+    }
+
+    async function changeActuator(containerId, actuatorName, database) {
+      const act = await fetchRecentActuatorData(actuatorName, database);
+      var status = act[0].value
+      console.log("status", status);
+
+      var containerElement = document.getElementById(containerId);
+      if (status == -1) {
+        containerElement
+          .querySelector("circle")
+          .setAttribute("fill", "green");
+        containerElement.querySelector("text").textContent = "ON";
+      } else if (status == -2) {
+        containerElement.querySelector("circle").setAttribute("fill", "red");
+        containerElement.querySelector("text").textContent = "OFF";
+      } else {
+        containerElement.querySelector("circle").setAttribute("fill", "#0f4c81");
+        containerElement.querySelector("text").textContent = status;
+      }
+    }
+
+
+
+
+    function updateContent(containerId, endpoint) {
+      var fullEndpoint = endpoint + "id=" + containerId;
+      $.ajax({
+        url: fullEndpoint,
+        method: "GET",
+        success: function (data) {
+          $("#" + containerId).html(data);
+        },
+        error: function (error) {
+          console.error("Error updating content:", error);
+        },
+      });
+    }
+
+    // Call the update functions every 1 second
+    setInterval(function () {
+      updateContent("tableCustomer", "/show_element/"); // Replace with your actual endpoint
+
+      updateActuatorPlot(
+        "soundAlertDiv",
+        "Sound alert",
+        'customer'
+      );
+      updateActuatorPlot(
+        "lightDiv",
+        "Light",
+        'customer'
+      );
+      updateActuatorPlot(
+        "monitorDiv",
+        "Monitor",
+        'customer'
+      );
+      changeActuator("soundAlertContainer",
+        "Sound alert",
+        'customer');
+      changeActuator("lightContainer",
+        "Light",
+        'customer');
+      changeActuator("monitorContainer",
+        "Monitor",
+        'customer');
+
+
+      updateSensorPlot("cameraDiv", "Camera", "customer");
+      updateSensorPlot("motionDetectorDiv", "Motion detector", "customer");
+      updateSensorPlot("soundSensorDiv", "Sound sensor", "customer");
+
+
+    }, 1000);
+  </script>
+
+  <footer class="footer" style="background: #0f4c81">
+    <div class="container">
+      <div class="row" style="padding: 0">
+        <div class="col text-start mt-3 fs-5" style="color: #ffffff">
+          Petra William Leka, Wesley Hakim
+        </div>
+        <div class="col fs-5 text-end" style="padding: 0">
+          <span class="" style="color: #ffffff">
+            Calvin Institute of Technology
+          </span>
+          <img src="{% static 'cit.png' %}" alt="Logo CIT" class="img-fluid"
+            style="max-width: 25% !important; padding: 10px" />
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

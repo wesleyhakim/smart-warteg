@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART WARTEG</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<style>
+  body {
+    background-image: url('{% static "background.png" %}');
+    background-repeat: repeat;
+  }
+  
+  .nav-link {
+        position: relative;
+      }
+
+      .nav-link::after {
+        content: '';
+        opacity: 0;
+        transition: all 0.2s;
+        height: 2px;
+        width: 100%;
+        background-color: #fcaf17;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      .nav-link:hover::after{
+        opacity: 1;
+      }
+</style>
+
+<body>
+  <header style="background: #0f4c81;" class="sticky-top">
+    <h1 class="text-center h1 bold pt-4" style="color:#fcaf17">
+        SMART WARTEG
+    </h1>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!-- NAVBAR -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav justify-content-evenly w-100">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/overview/" style="color:#ffffff">Overview</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dish/" style="color:#ffffff">Dish Cleaning</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/stove/" style="color:#ffffff">Stove Safety</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/customer/" style="color:#ffffff">Customer</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#ffffff">
+                            Subsystem History
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/dish/history/">Dish Cleaning History</a>
+                            <a class="dropdown-item" href="/stove/history/">Stove Safety History</a>
+                            <a class="dropdown-item" href="/customer/history/">Customer History</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/penjelasan/" style="color:#ffffff">Penjelasan</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- END OF NAVBAR -->
+        </div>
+    </nav>
+  </header>
+
+    <div class="container">
+        <section class="my-5">
+            <p class="my-2 display-5">
+                Smart Warteg
+            </p>
+            <p>
+                Smart Warteg adalah warteg yang telah terintregasikan dengan sistem
+                cerdas guna mempermudah pengguna yaitu pemilik warteg dalam
+                menjalankan bisnisnya dan keamanan pekerjaannya. Smart warteg
+                dilengkapi dengan sensor dan aktuator yang dapat mengotomatisasi
+                pekerjaan-pekerjaan yang dapat dilakukan oleh mesin menggunakan teknologi Machine Learning. 
+                Sistem Smart Warteg terdiri dari tiga ruangan, yaitu ruangan cuci piring, dapur,
+                dan ruangan customer.
+              </p>
+        </section>
+
+        <section class="my-5">
+            <p class="my-2 display-5">
+                Dish Cleaning Subystem
+            </p>
+            <p>
+                Ruangan cuci piring/dish cleaning subsystem memiliki tiga sensor dan
+                tiga aktuator.
+              </p>
+      
+              <ul>
+                <li>
+                  <strong>Sensor</strong>
+                  <ul>
+                    <li>
+                      Dish level detector: mengukur ketinggian piring kotor yang
+                      terkumpul. Nilai terbaca dari 0 - 10, dengan 10 nilai tertinggi
+                      yang berarti piring sudah menumpuk secara maksimal.
+                    </li>
+                    <li>
+                      Waterflow sensor: mengukur aliran air yang keluar untuk
+                      mengetahui air yang tersedia untuk mencuci piring. Nilai dari 0
+                      - 10, dengan 10 aliran air paling banyak.
+                    </li>
+                    <li>
+                      Dish weight reader: mengukur berat piring kotor yang telah
+                      terkumpul. Nilai dari 0 - 10 kg.
+                    </li>
+                  </ul>
+                </li>
+      
+                <li>
+                  <strong>Aktuator</strong>
+                  <ul>
+                    <li>
+                      Dish cleaner rotator: memutari piring yang dimasukan dalam mesin
+                      pencuci piring. Nilai dari 0 - 10, dengan 10 kekuatan memutar
+                      tertinggi.
+                    </li>
+                    <li>
+                      Sink water valve: mengeluarkan air dalam mesin pencuci piring
+                      jika cucian piring sudah mulai menumpuk, baik dari bacaan tinggi
+                      (dish level detector) atau beban (dish weight reader). Nilai
+                      antara ON (air mengalir) atau OFF (air mati) saja.
+                    </li>
+                    <li>
+                      Dish soap pump: memompa sabun cuci piring ke dalam mesin sesuai
+                      dengan bacaan tinggi (dish level detector) dan beban (dish
+                      weight detector) Nilai antara 0 sampai 5, dengan 5 memiliki
+                      sabun paling banyak dikeluarkan.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+      
+              <p>
+                Dalam ruangan cuci piring/dish cleaner subsystem ini teradapat 3
+                sensor dan 3 aktuator. Setiap aktuator akan menyala/mati atau bekerja
+                dengan intensitasnya masing-masing. Contoh, ketika bacaan sensor dish
+                level detector mendapatkan bahwa tinggi piring sudah cukup tinggi,
+                tetapi bacaan dish weight sensor bebannya tidak terlalu besar, maka
+                dish cleaner rotator akan tetap memutar untuk mencegah tinggi cucian
+                piring melebihi dari kapasitas. Ini juga berlaku sebaliknya, ketika
+                bacaan dish weight sensor bebannya sudah cukup berat, tetapi bacaan
+                dish level sensor rendah, dish cleaner rotator akan tetap berputar
+                untuk mencegah cucian terlalu berat sehingga mesin sulit untuk
+                berputar. Aktuator-aktuator lainnya juga akan bekerja dengan cara yang
+                sama dengan menerima dari 3 input yang berbeda. Sink water valve akan
+                menyalakan air ketika ingin mencuci, dan menyesuaikan seberapa lama
+                air akan menyala sesuai dengan bacaan air yang keluar. Dish soap pump
+                juga akan reaktif dengan bacaan ketiga sensor. Sabun akan dikeluarkan
+                lebih banyak jika cucian piring yang didapatkan juga banyak.
+              </p>
+        </section>
+
+        <section class="my-5">
+            <p class="my-2 display-5">
+                Stove Safety Subystem
+            </p>
+            <p>
+                Ruangan dapur/Stove safety subsytem memiliki tiga sensor dan tiga
+                aktuator.
+              </p>
+              <ul>
+                <li>
+                  <strong>Sensor</strong>
+                  <ul>
+                    <li>
+                      Temperature reader: mengukur suhu dalam dapur. Suhu yang diukur
+                      dari 20-120 derajat.
+                    </li>
+                    <li>
+                      Gas leak detector: membaca gas pada udara untuk mengetahui
+                      kebocoran gas LPG. Nilai diukur dari 0-10 dengan 10 adalah
+                      bacaan gas yang paling pekat pada udara.
+                    </li>
+                    <li>
+                      Smoke detector: membaca kadar asap pada udara untuk melihat
+                      pertanda kebakaran. Nilai diukur dari 0-10 dengan 10 adalah
+                      bacaan asap yang paling pekat pada udara.
+                    </li>
+                  </ul>
+                </li>
+      
+                <li>
+                  <strong>Aktuator</strong>
+                  <ul>
+                    <li>
+                      Water sprinkler: Menyemprotkan air untuk mematikan api. Keluaran
+                      aktuator dari 0-100 dengan 100 adalah semprotan air terbanyak.
+                    </li>
+                    <li>
+                      Fire alarm: mengeluarkan suara alarm untuk memperingatkan jika
+                      terjadi kebakaran. Nilai hanya antara ON (mengeluarkan suara)
+                      atau OFF (tidak mengeluarkan suara).
+                    </li>
+                    <li>
+                      Gas exhaust: menghisap dan mengeluarkan gas yang ada pada
+                      ruangan keluar dari ruangan. Nilai antara 0-100 dengan 100
+                      adalah hisapan paling kencang.
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p>
+                Dalam ruangan dapur/stove subsystem ini teradapat 3 sensor dan 3
+                aktuator. Setiap aktuator akan menyala/mati atau bekerja dengan
+                intensitasnya masing-masing. Contoh, ketika bacaan sensor temperatur
+                mendapatkan bahwa suhu yang terbaca cukup tinggi, tetapi bacaan smoke
+                detector tidak mendeteksi kadar asap yang terlalu pekat, maka fire
+                alarm akan tetap menyala untuk mencegah terjadinya kebakaran karena
+                suhu sudah terlalu tinggi, meski tidak asap. Ini juga berlaku
+                sebaliknya, ketika bacaan sensor temperatur tidak mengukur suhu yang
+                terlalu tinggi, tetapi bacaan asap sensor tinggi, fire alarm akan
+                tetap menyala untuk memperingati bahwa terdeteksi asap yang pekat pada
+                ruangan. Aktuator-aktuator lainnya juga akan bekerja dengan cara yang
+                sama dengan menerima dari 3 input yang berbeda. water sprinkler akan
+                menyemprot air dengan intesitas yang disesuaikan dengan bacaan suhu
+                yang tinggi/rendah. Gas exhaust juga akan reaktif dengan bacaan ketiga
+                sensor. Gas exhaust akan bekerja dengan intesitas yang lebih tinggi
+                jika asap ataupun gas yang terdeteksi pada udara ruangan tinggi.
+              </p>
+        </section>
+
+        <section class="my-5">
+            <p class="my-2 display-5">
+                Customer Subystem
+            </p>
+            <p>Ruangan pelanggan/Customer subsystem memiliki tiga sensor.</p>
+        <ul>
+          <li>
+            <strong>Sensor</strong>
+            <ul>
+              <li>
+                Camera: mendeteksi jumlah orang yang ada di ruangan. Nilai dari
+                0-10 dengan 10 yang berarti ada 10 orang atau lebih.
+              </li>
+              <li>
+                Motion detector: mendeteksi pergerakan di ruangan. Nilai dari
+                0-10 dengan 10 yang berarti banyak pergerakan pada ruangan.
+              </li>
+              <li>
+                Sound sensor: mendeteksi suara di ruangan. Nilai dari 1-100
+                dengan 100 berarti intensitas yang terdeteksi tinggi
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>Aktuator</strong>
+            <ul>
+              <li>
+                Sound alert: Mengeluarkan suara untuk memperingati pengguna
+                (pemilik warteg) dalam bentuk audio jika pelanggan ramai dan
+                ricuh. Nilai ON (bersuara) dan OFF (tidak bersuara).
+              </li>
+              <li>
+                Light: Mengeluarkan cahaya untuk menerangi ruangan jika terdapat
+                pelanggan. Nilai hanya ON (menyala) atau OFF (mati).
+              </li>
+              <li>
+                Monitor: Menampilkan jumlah orang yang terdeteksi pada camera.
+                Nilai dari 0-10 dengan 10 yang berarti ada 10 orang atau lebih.
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <p>
+          Dalam ruangan pelanggan/customer subsystem ini teradapat 3 sensor dan
+          3 aktuator. Setiap aktuator akan menyala/mati sesuai dengan bacaan
+          sensor yang didapatkan. Sound alert, light akan menyala ketika
+          terdeteksi ada orang dari motion detector atau camera. Light akan
+          menyala ketika ada orang yang terdeteksi sehingga ruangan akan terang.
+          Sound alert akan berbunyi ketika ada orang yang terdeteksi sudah cukup
+          ramai dan suara cukup gaduh, sehingga pengguna (pemiliki warteg) dapat
+          diperingati bahwa pelanggan sudah mulai meramai. Monitor akan
+          menampilkan jumlah orang yang terdeteksi oleh kamera.
+        </p>
+        </section>
+    </div>
+    
+    <h1>
+      Reference
+    </h1>
+    <p>
+      Sumber kode:<br>
+https://getbootstrap.com/docs/4.0/components/navbar/<br>
+https://getbootstrap.com/docs/4.0/components/carousel/<br>
+https://getbootstrap.com/docs/4.0/components/dropdowns/<br>
+https://developers.google.com/chart/interactive/docs/gallery/linechart<br>
+https://chat.openai.com/<br>
+https://bard.google.com/<br><br>
+
+
+sumber gambar:<br>
+https://www.astronauts.id/blog/aneka-menu-warteg-yang-jadi-favorit-di-tanggal-tua/<br>
+https://www.liputan6.com/regional/read/5221548/tips-buat-kamu-yang-hobi-makan-di-warteg<br>
+https://www.cnnindonesia.com/gaya-hidup/20200402101439-262-489448/daftar-50-warteg-gratis-untuk-pekerja-informal-dan-ojol<br>
+https://depok24jam.republika.co.id/posts/38175/catet-gais-ini-lokasi-warteg-favorit-warga-depok
+
+    </p>
+
+
+    <!-- GAMBAR -->
+    <div class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-8">
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                      <div class="carousel-item">
+                        <img src="{% static 'Diagram proyek web.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'customercsv.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'dishcsv.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'stovecsv.png' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item active">
+                        <img src="{% static 'warteg1.jpg' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'warteg2.jpg' %}" class="d-block w-100" alt="...">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="{% static 'warteg3.jpeg' %}" class="d-block w-100" alt="...">
+                      </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+
+    <footer class="footer" style="background: #0f4c81;">
+        <div class="container">
+            <div class="row" style="padding: 0;">
+                <div class="col text-start mt-3 fs-5" style="color:#FFFFFF">Petra William Leka, Wesley Hakim</div>
+                <div class="col fs-5 text-end" style="padding: 0;">
+                    <span class="" style="color:#FFFFFF">
+                        Calvin Institute of Technology
+                    </span>
+                    <img src="{% static 'cit.png' %}" alt="Logo CIT" class="img-fluid"
+                        style="max-width: 25% !important; padding:10px">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

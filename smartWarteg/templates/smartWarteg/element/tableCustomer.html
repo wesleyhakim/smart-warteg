@@ -1,0 +1,29 @@
+  <div class="table-responsive">
+    <table class="table table-sm">
+        <thead class="table-info">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+                <th scope="col">Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tiap_sensor in customer_sensor %}
+            <tr class="clickable-button">
+                <td>{{ tiap_sensor.name }}</td>
+                <td>
+                    {{ tiap_sensor.value }}
+                    {% if tiap_sensor.name == 'Camera' %}
+                        orang
+                    {% elif tiap_sensor.name == 'Motion detector' %}
+                    orang
+                    {% elif tiap_sensor.name == 'Sound sensor' %}
+                        dB
+                    {% endif %}
+                </td>
+                <td>{{ tiap_sensor.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

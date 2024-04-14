@@ -1,0 +1,23 @@
+Library yang dipakai
+asgiref==3.7.2
+Django==4.2.7
+joblib==1.3.2
+numpy==1.26.2
+paho-mqtt==1.6.1
+pandas==2.1.3
+python-dateutil==2.8.2
+pytz==2023.3.post1
+scikit-learn==1.3.1
+scipy==1.11.4
+six==1.16.0
+sqlparse==0.4.4
+threadpoolctl==3.2.0
+tzdata==2023.3
+
+file node-red bernama node_red.json bisa di import ke node red
+
+pembagian tugas:
+
+Petra william leka: Machine Learning, node red, mqtt
+
+Wesley hakim: desain website, html, javascript, multipage structure dan desain
